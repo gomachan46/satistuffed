@@ -1,11 +1,26 @@
 version: '3'
 services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'satistuffed'
+    ports:
+      - '53306:3306'
+    volumes:
+      - mysql:/var/lib/mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
   app:
     build:
       context: .
-      target: build
+      dockerfile: Dockerfile-dev
+    tty: true
+    depends_on:
+      - 'db'
     volumes:
-      - .:/go/src/work
-    ports:
-      - '1323:1323'
-    command: go run main.go
+      - .:/go/src/github.com/gomachan46/satistuffed
+    command: ['wait-for-it', 'db:3306', '--', 'echo', 'app']
+
+volumes:
+  mysql:
+    driver: 'local'
