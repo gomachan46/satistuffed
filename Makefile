@@ -12,19 +12,17 @@ build:
 install:
 	echo 'install'
 
-up:
-	make install
+up: install
 	docker-compose up
 
-ssh/app:
-	docker-compose run --rm app bash
+down:
+	docker-compose down
 
 db/migrate:
-	docker-compose run --rm app migrate -database 'mysql://root@tcp(db)/satistuffed' -path db/migrations up
+	docker-compose run --rm migrate make db/migrate
 
 db/reset:
-	docker-compose run --rm app migrate -database 'mysql://root@tcp(db)/satistuffed' -path db/migrations drop -f
-	docker-compose run --rm app migrate -database 'mysql://root@tcp(db)/satistuffed' -path db/migrations up
+	docker-compose run --rm migrate make db/reset
 
 db/seed:
-	echo 'db seed'
+	docker-compose run --rm migrate make db/seed
