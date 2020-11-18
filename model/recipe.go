@@ -1,4 +1,4 @@
-package main
+package model
 
 type Recipe struct {
 	Name        string
@@ -8,10 +8,10 @@ type Recipe struct {
 
 type Ingredient struct {
 	Item   *Item
-	amount uint8
+	Amount uint8
 }
 
 type Product struct {
 	Item   *Item
-	amount uint8
+	Amount uint8
 }

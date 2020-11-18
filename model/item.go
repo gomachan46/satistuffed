@@ -1,6 +1,6 @@
-package main
+package model
 
 type Item struct {
 	Name    string
-	recipes *[]Recipe
+	Recipes *[]Recipe
 }
