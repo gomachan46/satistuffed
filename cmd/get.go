@@ -36,14 +36,14 @@ func init() {
 }
 
 func hoge() {
-	ironOreRecipe := &model.Recipe{Name: "Iron Ore 1"}
-	ironOre := &model.Item{Name: "Iron Ore"}
+	ironOreRecipe := &model.Recipe{Name: "鉄鉱石のレシピ1"}
+	ironOre := &model.Item{Name: "鉄鉱石"}
 	ironOreRecipe.Ingredients = &[]model.Ingredient{}
 	ironOreRecipe.Products = &[]model.Product{{Item: ironOre, Amount: 60}}
 	ironOre.Recipes = &[]model.Recipe{*ironOreRecipe}
 
-	ironIngotRecipe := &model.Recipe{Name: "Iron Ingot 1"}
-	ironIngot := &model.Item{Name: "Iron Ingot"}
+	ironIngotRecipe := &model.Recipe{Name: "鉄インゴットのレシピ1"}
+	ironIngot := &model.Item{Name: "鉄インゴット"}
 	ironIngotRecipe.Ingredients = &[]model.Ingredient{{
 		Item:   ironOre,
 		Amount: 30,
@@ -54,8 +54,8 @@ func hoge() {
 	}}
 	ironIngot.Recipes = &[]model.Recipe{*ironIngotRecipe}
 
-	ironPlateRecipe := &model.Recipe{Name: "Iron Plate 1"}
-	ironPlate := &model.Item{Name: "Iron Plate"}
+	ironPlateRecipe := &model.Recipe{Name: "鉄板のレシピ1"}
+	ironPlate := &model.Item{Name: "鉄板"}
 	ironPlateRecipe.Ingredients = &[]model.Ingredient{{
 		Item:   ironIngot,
 		Amount: 30,
@@ -66,8 +66,8 @@ func hoge() {
 	}}
 	ironPlate.Recipes = &[]model.Recipe{*ironPlateRecipe}
 
-	reinforcedIronPlateRecipe := &model.Recipe{Name: "Reinforced Iron Plate 1"}
-	reinforcedIronPlate := &model.Item{Name: "Reinforced Iron Plate"}
+	reinforcedIronPlateRecipe := &model.Recipe{Name: "強化鉄板のレシピ1"}
+	reinforcedIronPlate := &model.Item{Name: "強化鉄板"}
 	reinforcedIronPlateRecipe.Ingredients = &[]model.Ingredient{{
 		Item:   ironPlate,
 		Amount: 30,
@@ -78,14 +78,15 @@ func hoge() {
 	}}
 	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
-	pp.Println("Iron Ore")
+	pp.Println("テスト1: 鉄鉱石")
 	draw(a(ironOre))
-	pp.Println("Iron Ingot")
+	pp.Println("テスト2: 鉄インゴット")
 	draw(a(ironIngot))
-	pp.Println("Iron Plate")
+	pp.Println("テスト3: 鉄板")
 	draw(a(ironPlate))
-	pp.Println("Reinforced Iron Plate")
+	pp.Println("テスト4: 強化鉄板")
 	draw(a(reinforcedIronPlate))
+	pp.Println("※ ここは本当は鉄鉱石は共有したいが未実装")
 }
 
 func draw(facility *model.Facility) {
