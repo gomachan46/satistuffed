@@ -14,16 +14,16 @@ import (
 )
 
 // getCmd represents the get command
-var getCmd = &cobra.Command{
-	Use:   "get",
-	Short: "Get a stuffed Item",
+var maxCmd = &cobra.Command{
+	Use:   "max",
+	Short: "Get a max Facility",
 	Run: func(cmd *cobra.Command, args []string) {
 		hoge()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(getCmd)
+	rootCmd.AddCommand(maxCmd)
 
 	// Here you will define your flags and configuration settings.
 
@@ -36,7 +36,7 @@ func init() {
 	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func hoge() {
+func fuga() {
 	ironOreRecipe := &model.Recipe{Name: "鉄鉱石のレシピ1"}
 	ironOre := &model.Item{Name: "鉄鉱石"}
 	ironOreRecipe.Ingredients = &[]model.Ingredient{}
@@ -110,16 +110,16 @@ func hoge() {
 	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
 	pp.Println("テスト1: 鉄鉱石")
-	cli.Draw(a(ironOre))
+	cli.Draw(b(ironOre))
 	pp.Println("テスト2: 鉄インゴット")
-	cli.Draw(a(ironIngot))
+	cli.Draw(b(ironIngot))
 	pp.Println("テスト3: 鉄板")
-	cli.Draw(a(ironPlate))
+	cli.Draw(b(ironPlate))
 	pp.Println("テスト4: 強化鉄板")
-	cli.Draw(a(reinforcedIronPlate))
+	cli.Draw(b(reinforcedIronPlate))
 }
 
-func a(item *model.Item) *model.Facility {
+func b(item *model.Item) *model.Facility {
 	recipe := (*item.Recipes)[0]
 	ingredients := *recipe.Ingredients
 
