@@ -9,9 +9,9 @@ import (
 	"github.com/gomachan46/satistuffed/cli"
 	"github.com/gomachan46/satistuffed/data"
 	"github.com/gomachan46/satistuffed/model"
+	"github.com/gomachan46/satistuffed/mymath"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
-	"math"
 	"os"
 )
 
@@ -52,31 +52,34 @@ func fuga() {
 
 func b(item *model.Item) *model.Facility {
 	recipe := (*item.Recipes)[0]
-	ingredients := *recipe.Ingredients
-
-	if len(ingredients) < 1 {
-		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
-	}
 
 	children := []model.Facility{}
-
+	magnifications := []int{}
 	for _, ingredient := range *recipe.Ingredients {
 		ingredientItem := ingredient.Item
 		ingredientRecipe := (*ingredientItem.Recipes)[0]
 		ingredientProduct := (*ingredientRecipe.Products)[0]
 
-		if ingredient.Amount <= ingredientProduct.Amount {
-			return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*b(ingredientItem)}}
-		}
-
-		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
-		ingredientRecipe.Name = fmt.Sprintf("%s x %d", ingredientRecipe.Name, magnification)
-		stuffedFacility := &model.Facility{Recipe: &ingredientRecipe, Children: &[]model.Facility{}}
-		for i := 0; i < magnification; i++ {
-			*stuffedFacility.Children = append(*stuffedFacility.Children, *b(ingredientItem))
-		}
-		children = append(children, *stuffedFacility)
+		lcm := mymath.LCM(int(ingredient.Amount), int(ingredientProduct.Amount))
+		magnification := lcm / int(ingredient.Amount)
+		magnifications = append(magnifications, magnification)
 	}
 
-	return &model.Facility{Recipe: &recipe, Children: &children}
+	var m int
+	if len(magnifications) == 0 {
+		m = 1
+	} else if len(magnifications) == 1 {
+		m = magnifications[0]
+	} else {
+		m = mymath.LCM(magnifications[0], magnifications[1], magnifications[2:]...)
+	}
+	recipe.Name = fmt.Sprintf("%s x %d", recipe.Name, m)
+	stuffedFacility := &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
+	for i := 0; i < m; i++ {
+		*stuffedFacility.Children = append(*stuffedFacility.Children, *a(item))
+	}
+	children = append(children, *stuffedFacility)
+	pp.Println(m)
+
+	return stuffedFacility
 }

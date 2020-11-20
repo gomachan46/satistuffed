@@ -66,7 +66,7 @@ func a(item *model.Item) *model.Facility {
 
 	children := []model.Facility{}
 
-	for _, ingredient := range *recipe.Ingredients {
+	for _, ingredient := range ingredients {
 		ingredientItem := ingredient.Item
 		ingredientRecipe := (*ingredientItem.Recipes)[0]
 		ingredientProduct := (*ingredientRecipe.Products)[0]
