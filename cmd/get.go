@@ -66,12 +66,42 @@ func hoge() {
 	}}
 	ironPlate.Recipes = &[]model.Recipe{*ironPlateRecipe}
 
+	ironRodRecipe := &model.Recipe{Name: "鉄のロッドのレシピ1"}
+	ironRod := &model.Item{Name: "鉄のロッド"}
+	ironRodRecipe.Ingredients = &[]model.Ingredient{{
+		Item:   ironIngot,
+		Amount: 15,
+	}}
+	ironRodRecipe.Products = &[]model.Product{{
+		Item:   ironRod,
+		Amount: 15,
+	}}
+	ironRod.Recipes = &[]model.Recipe{*ironRodRecipe}
+
+	screwRecipe := &model.Recipe{Name: "ネジのレシピ1"}
+	screw := &model.Item{Name: "ネジ"}
+	screwRecipe.Ingredients = &[]model.Ingredient{{
+		Item:   ironRod,
+		Amount: 10,
+	}}
+	screwRecipe.Products = &[]model.Product{{
+		Item:   screw,
+		Amount: 40,
+	}}
+	screw.Recipes = &[]model.Recipe{*screwRecipe}
+
 	reinforcedIronPlateRecipe := &model.Recipe{Name: "強化鉄板のレシピ1"}
 	reinforcedIronPlate := &model.Item{Name: "強化鉄板"}
-	reinforcedIronPlateRecipe.Ingredients = &[]model.Ingredient{{
-		Item:   ironPlate,
-		Amount: 30,
-	}}
+	reinforcedIronPlateRecipe.Ingredients = &[]model.Ingredient{
+		{
+			Item:   ironPlate,
+			Amount: 30,
+		},
+		{
+			Item:   screw,
+			Amount: 60,
+		},
+	}
 	reinforcedIronPlateRecipe.Products = &[]model.Product{{
 		Item:   reinforcedIronPlate,
 		Amount: 5,
@@ -120,19 +150,21 @@ func a(item *model.Item) *model.Facility {
 		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
 	}
 
-	ingredient := (*recipe.Ingredients)[0]
-	ingredientItem := ingredient.Item
-	ingredientRecipe := (*ingredientItem.Recipes)[0]
-	ingredientProduct := (*ingredientRecipe.Products)[0]
-
-	if ingredient.Amount <= ingredientProduct.Amount {
-		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*a(ingredientItem)}}
-	}
-
-	magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
 	children := []model.Facility{}
-	for i := 0; i < magnification; i++ {
-		children = append(children, *a(ingredientItem))
+
+	for _, ingredient := range *recipe.Ingredients {
+		ingredientItem := ingredient.Item
+		ingredientRecipe := (*ingredientItem.Recipes)[0]
+		ingredientProduct := (*ingredientRecipe.Products)[0]
+
+		if ingredient.Amount <= ingredientProduct.Amount {
+			return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*a(ingredientItem)}}
+		}
+
+		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
+		for i := 0; i < magnification; i++ {
+			children = append(children, *a(ingredientItem))
+		}
 	}
 
 	return &model.Facility{Recipe: &recipe, Children: &children}
