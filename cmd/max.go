@@ -7,10 +7,12 @@ package cmd
 import (
 	"fmt"
 	"github.com/gomachan46/satistuffed/cli"
+	"github.com/gomachan46/satistuffed/data"
 	"github.com/gomachan46/satistuffed/model"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"math"
+	"os"
 )
 
 // getCmd represents the get command
@@ -37,77 +39,12 @@ func init() {
 }
 
 func fuga() {
-	ironOreRecipe := &model.Recipe{Name: "鉄鉱石のレシピ1"}
-	ironOre := &model.Item{Name: "鉄鉱石"}
-	ironOreRecipe.Ingredients = &[]model.Ingredient{}
-	ironOreRecipe.Products = &[]model.Product{{Item: ironOre, Amount: 60}}
-	ironOre.Recipes = &[]model.Recipe{*ironOreRecipe}
-
-	ironIngotRecipe := &model.Recipe{Name: "鉄インゴットのレシピ1"}
-	ironIngot := &model.Item{Name: "鉄インゴット"}
-	ironIngotRecipe.Ingredients = &[]model.Ingredient{{
-		Item:   ironOre,
-		Amount: 30,
-	}}
-	ironIngotRecipe.Products = &[]model.Product{{
-		Item:   ironIngot,
-		Amount: 30,
-	}}
-	ironIngot.Recipes = &[]model.Recipe{*ironIngotRecipe}
-
-	ironPlateRecipe := &model.Recipe{Name: "鉄板のレシピ1"}
-	ironPlate := &model.Item{Name: "鉄板"}
-	ironPlateRecipe.Ingredients = &[]model.Ingredient{{
-		Item:   ironIngot,
-		Amount: 30,
-	}}
-	ironPlateRecipe.Products = &[]model.Product{{
-		Item:   ironPlate,
-		Amount: 20,
-	}}
-	ironPlate.Recipes = &[]model.Recipe{*ironPlateRecipe}
-
-	ironRodRecipe := &model.Recipe{Name: "鉄のロッドのレシピ1"}
-	ironRod := &model.Item{Name: "鉄のロッド"}
-	ironRodRecipe.Ingredients = &[]model.Ingredient{{
-		Item:   ironIngot,
-		Amount: 15,
-	}}
-	ironRodRecipe.Products = &[]model.Product{{
-		Item:   ironRod,
-		Amount: 15,
-	}}
-	ironRod.Recipes = &[]model.Recipe{*ironRodRecipe}
-
-	screwRecipe := &model.Recipe{Name: "ネジのレシピ1"}
-	screw := &model.Item{Name: "ネジ"}
-	screwRecipe.Ingredients = &[]model.Ingredient{{
-		Item:   ironRod,
-		Amount: 10,
-	}}
-	screwRecipe.Products = &[]model.Product{{
-		Item:   screw,
-		Amount: 40,
-	}}
-	screw.Recipes = &[]model.Recipe{*screwRecipe}
-
-	reinforcedIronPlateRecipe := &model.Recipe{Name: "強化鉄板のレシピ1"}
-	reinforcedIronPlate := &model.Item{Name: "強化鉄板"}
-	reinforcedIronPlateRecipe.Ingredients = &[]model.Ingredient{
-		{
-			Item:   ironPlate,
-			Amount: 30,
-		},
-		{
-			Item:   screw,
-			Amount: 60,
-		},
+	d := data.Load()
+	screw, err := d.GetItem("ネジ")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
 	}
-	reinforcedIronPlateRecipe.Products = &[]model.Product{{
-		Item:   reinforcedIronPlate,
-		Amount: 5,
-	}}
-	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
 	pp.Println("テスト: ネジ")
 	cli.Draw(b(screw))
