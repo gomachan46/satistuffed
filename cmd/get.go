@@ -5,6 +5,7 @@ Copyright © 2020 gomachan46 <shiro.gomachan46@gmail.com>
 package cmd
 
 import (
+	"fmt"
 	"github.com/gomachan46/satistuffed/model"
 	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
@@ -77,21 +78,45 @@ func hoge() {
 	}}
 	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
-	results := fuga(reinforcedIronPlate)
-	for i, v := range results {
-		pp.Printf("No. %v\n", i)
-		pp.Println(v.Item.Name)
+	pp.Println("Iron Ore")
+	draw(a(ironOre))
+	pp.Println("Iron Ingot")
+	draw(a(ironIngot))
+	pp.Println("Iron Plate")
+	draw(a(ironPlate))
+	pp.Println("Reinforced Iron Plate")
+	draw(a(reinforcedIronPlate))
+}
+
+func draw(facility *model.Facility) {
+	fmt.Printf(" %s\n", facility.Recipe.Name)
+	drawChildren("", facility)
+	fmt.Println("")
+}
+
+func drawChildren(indent string, facility *model.Facility) {
+	children := *facility.Children
+
+	for i, v := range children {
+		s := indent + " ├─"
+		a := " │ "
+		if i == len(children)-1 {
+			s = indent + " └─"
+			a = "   "
+		}
+
+		fmt.Printf("%s %s\n", s, v.Recipe.Name)
+
+		drawChildren(indent+a, &v)
 	}
 }
 
-func fuga(item *model.Item) []model.Product {
+func a(item *model.Item) *model.Facility {
 	recipe := (*item.Recipes)[0]
-	product := (*recipe.Products)[0]
 	ingredients := *recipe.Ingredients
-	products := []model.Product{product}
 
 	if len(ingredients) < 1 {
-		return products
+		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
 	}
 
 	ingredient := (*recipe.Ingredients)[0]
@@ -100,49 +125,14 @@ func fuga(item *model.Item) []model.Product {
 	ingredientProduct := (*ingredientRecipe.Products)[0]
 
 	if ingredient.Amount <= ingredientProduct.Amount {
-		if len(*ingredientRecipe.Ingredients) < 1 {
-			return append(products, ingredientProduct)
-		}
-
-		return append(products, fuga(ingredientItem)...)
+		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*a(ingredientItem)}}
 	}
 
-	ingredientProducts := []model.Product{}
-	if ingredient.Amount > ingredientProduct.Amount {
-		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
-		for i := 0; i < magnification; i++ {
-			ingredientProducts = append(ingredientProducts, fuga(ingredientItem)...)
-		}
+	magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
+	children := []model.Facility{}
+	for i := 0; i < magnification; i++ {
+		children = append(children, *a(ingredientItem))
 	}
 
-	return append(products, ingredientProducts...)
-}
-
-func a(ingredient *model.Ingredient) {
-	item := ingredient.Item
-	recipe := (*item.Recipes)[0]
-
-	b(ingredient.Amount, &recipe)
-}
-
-func b(needed uint8, recipe *model.Recipe) *model.Recipe {
-	if needed <= piyo(recipe) {
-		pp.Println("needed!")
-		return recipe
-	}
-
-	return recipe
-}
-
-func piyo(recipe *model.Recipe) uint8 {
-	ingredients := *recipe.Ingredients
-	if len(ingredients) < 1 {
-		product := (*recipe.Products)[0]
-		pp.Println("piyo!")
-		return product.Amount
-	}
-
-	ingredient := ingredients[0]
-	item := ingredient.Item
-	return piyo(&(*item.Recipes)[0])
+	return &model.Facility{Recipe: &recipe, Children: &children}
 }
