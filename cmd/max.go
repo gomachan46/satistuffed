@@ -18,7 +18,7 @@ var maxCmd = &cobra.Command{
 	Use:   "max",
 	Short: "Get a max Facility",
 	Run: func(cmd *cobra.Command, args []string) {
-		hoge()
+		fuga()
 	},
 }
 
@@ -109,14 +109,8 @@ func fuga() {
 	}}
 	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
-	pp.Println("テスト1: 鉄鉱石")
-	cli.Draw(b(ironOre))
-	pp.Println("テスト2: 鉄インゴット")
-	cli.Draw(b(ironIngot))
-	pp.Println("テスト3: 鉄板")
-	cli.Draw(b(ironPlate))
-	pp.Println("テスト4: 強化鉄板")
-	cli.Draw(b(reinforcedIronPlate))
+	pp.Println("テスト: ネジ")
+	cli.Draw(b(screw))
 }
 
 func b(item *model.Item) *model.Facility {
@@ -135,14 +129,14 @@ func b(item *model.Item) *model.Facility {
 		ingredientProduct := (*ingredientRecipe.Products)[0]
 
 		if ingredient.Amount <= ingredientProduct.Amount {
-			return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*a(ingredientItem)}}
+			return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*b(ingredientItem)}}
 		}
 
 		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
 		ingredientRecipe.Name = fmt.Sprintf("%s x %d", ingredientRecipe.Name, magnification)
 		stuffedFacility := &model.Facility{Recipe: &ingredientRecipe, Children: &[]model.Facility{}}
 		for i := 0; i < magnification; i++ {
-			*stuffedFacility.Children = append(*stuffedFacility.Children, *a(ingredientItem))
+			*stuffedFacility.Children = append(*stuffedFacility.Children, *b(ingredientItem))
 		}
 		children = append(children, *stuffedFacility)
 	}

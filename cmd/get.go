@@ -109,12 +109,12 @@ func hoge() {
 	}}
 	reinforcedIronPlate.Recipes = &[]model.Recipe{*reinforcedIronPlateRecipe}
 
-	pp.Println("テスト1: 鉄鉱石")
-	cli.Draw(a(ironOre))
-	pp.Println("テスト2: 鉄インゴット")
-	cli.Draw(a(ironIngot))
-	pp.Println("テスト3: 鉄板")
-	cli.Draw(a(ironPlate))
+	//pp.Println("テスト1: 鉄鉱石")
+	//cli.Draw(a(ironOre))
+	//pp.Println("テスト2: 鉄インゴット")
+	//cli.Draw(a(ironIngot))
+	//pp.Println("テスト3: 鉄板")
+	//cli.Draw(a(ironPlate))
 	pp.Println("テスト4: 強化鉄板")
 	cli.Draw(a(reinforcedIronPlate))
 }
