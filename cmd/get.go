@@ -9,7 +9,6 @@ import (
 	"github.com/gomachan46/satistuffed/cli"
 	"github.com/gomachan46/satistuffed/data"
 	"github.com/gomachan46/satistuffed/model"
-	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"math"
 	"os"
@@ -40,20 +39,13 @@ func init() {
 
 func hoge() {
 	d := data.Load()
-	reinforcedIronPlate, err := d.GetItem("強化鉄板")
+	item, err := d.GetItem("ヘビー・モジュラー・フレーム")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
 
-	//pp.Println("テスト1: 鉄鉱石")
-	//cli.Draw(a(ironOre))
-	//pp.Println("テスト2: 鉄インゴット")
-	//cli.Draw(a(ironIngot))
-	//pp.Println("テスト3: 鉄板")
-	//cli.Draw(a(ironPlate))
-	pp.Println("テスト4: 強化鉄板")
-	cli.Draw(a(reinforcedIronPlate))
+	cli.Draw(a(item))
 }
 
 func a(item *model.Item) *model.Facility {
