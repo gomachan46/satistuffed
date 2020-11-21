@@ -22,8 +22,12 @@ func drawChildren(indent string, facility *model.Facility) {
 			a = "   "
 		}
 
-		fmt.Printf("%s %s\n", s, v.Recipe.Name)
+		if v.Remain > 0 {
+			fmt.Printf("%s %s (余り: %d)\n", s, v.Facility.Recipe.Name, int(v.Remain))
+		} else {
+			fmt.Printf("%s %s\n", s, v.Facility.Recipe.Name)
+		}
 
-		drawChildren(indent+a, &v)
+		drawChildren(indent+a, v.Facility)
 	}
 }

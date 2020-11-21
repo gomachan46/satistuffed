@@ -74,9 +74,15 @@ func b(item *model.Item) *model.Facility {
 		m = mymath.LCM(magnifications[0], magnifications[1], magnifications[2:]...)
 	}
 	recipe.Name = fmt.Sprintf("%s x %d", recipe.Name, m)
-	stuffedFacility := &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
+	stuffedFacility := &model.Facility{Recipe: &recipe, Children: &[]model.FacilityChild{}}
 	for i := 0; i < m; i++ {
-		*stuffedFacility.Children = append(*stuffedFacility.Children, *a(item))
+		*stuffedFacility.Children = append(
+			*stuffedFacility.Children,
+			model.FacilityChild{
+				Remain:   0,
+				Facility: a(item),
+			},
+		)
 	}
 	children = append(children, *stuffedFacility)
 	pp.Println(m)

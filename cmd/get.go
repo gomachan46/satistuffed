@@ -58,13 +58,14 @@ func hoge() {
 
 func a(item *model.Item) *model.Facility {
 	recipe := (*item.Recipes)[0]
+	product := (*recipe.Products)[0]
 	ingredients := *recipe.Ingredients
 
 	if len(ingredients) < 1 {
-		return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{}}
+		return &model.Facility{Recipe: &recipe, Children: &[]model.FacilityChild{}}
 	}
 
-	children := []model.Facility{}
+	children := []model.FacilityChild{}
 
 	for _, ingredient := range ingredients {
 		ingredientItem := ingredient.Item
@@ -72,17 +73,40 @@ func a(item *model.Item) *model.Facility {
 		ingredientProduct := (*ingredientRecipe.Products)[0]
 
 		if ingredient.Amount <= ingredientProduct.Amount {
-			return &model.Facility{Recipe: &recipe, Children: &[]model.Facility{*a(ingredientItem)}}
+			return &model.Facility{
+				Recipe: &recipe,
+				Amount: product.Amount,
+				Children: &[]model.FacilityChild{{
+					Remain:   ingredientProduct.Amount - ingredient.Amount,
+					Facility: a(ingredientItem),
+				}},
+			}
 		}
 
 		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
-		ingredientRecipe.Name = fmt.Sprintf("%s x %d", ingredientRecipe.Name, magnification)
-		stuffedFacility := &model.Facility{Recipe: &ingredientRecipe, Children: &[]model.Facility{}}
-		for i := 0; i < magnification; i++ {
-			*stuffedFacility.Children = append(*stuffedFacility.Children, *a(ingredientItem))
+		ingredientRecipe.Name = fmt.Sprintf("%s(合流)", ingredientRecipe.Name)
+		stuffedFacility := &model.Facility{
+			Recipe:   &ingredientRecipe,
+			Amount:   ingredientProduct.Amount * uint8(magnification),
+			Children: &[]model.FacilityChild{},
 		}
-		children = append(children, *stuffedFacility)
+		for i := 0; i < magnification; i++ {
+			*stuffedFacility.Children = append(
+				*stuffedFacility.Children,
+				model.FacilityChild{
+					Remain:   0,
+					Facility: a(ingredientItem),
+				},
+			)
+		}
+		children = append(
+			children,
+			model.FacilityChild{
+				Remain:   stuffedFacility.Amount - ingredient.Amount,
+				Facility: stuffedFacility,
+			},
+		)
 	}
 
-	return &model.Facility{Recipe: &recipe, Children: &children}
+	return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &children}
 }
