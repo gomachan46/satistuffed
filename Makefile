@@ -32,4 +32,10 @@ install:
 	$(APPMAKE) install
 
 clean:
-	$(APPMAKE) app.mk clean
+	$(APPMAKE) clean
+
+build/win:
+	$(APPMAKE) build/win
+
+build/mac:
+	$(APPMAKE) build/mac

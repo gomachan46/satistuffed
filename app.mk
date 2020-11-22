@@ -3,7 +3,7 @@ GOBUILD := $(GOCMD) build
 GOCLEAN := $(GOCMD) clean
 GOTEST := $(GOCMD) test
 GOGET := $(GOCMD) get
-BINARY_NAME := satistuffed
+BINARY_NAME = satistuffed
 MAKE:=make -f app.mk
 
 include help.mk
@@ -17,7 +17,7 @@ build:
 	$(GOBUILD) -o $(BINARY_NAME) -v
 
 build/win:
-	GOOS=windows GOARCH=amd64 $(MAKE) build
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME).exe -v
 
 build/mac:
 	GOOS=darwin GOARCH=amd64 $(MAKE) build
