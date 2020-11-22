@@ -19,6 +19,16 @@ func (d Data) GetItem(name string) (*model.Item, error) {
 	return nil, fmt.Errorf("Error: item not found %s", name)
 }
 
+func (d Data) GetItemNames() []string {
+	itemNames := []string{}
+
+	for _, v := range *d.Items {
+		itemNames = append(itemNames, v.Name)
+	}
+
+	return itemNames
+}
+
 func Load() *Data {
 	ironOre := &model.Item{Name: "鉄鉱石"}
 	copperOre := &model.Item{Name: "銅鉱石"}

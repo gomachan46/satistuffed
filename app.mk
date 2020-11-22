@@ -16,15 +16,6 @@ install:
 build:
 	$(GOBUILD) -o $(BINARY_NAME) -v
 
-build/win:
-	GOOS=windows GOARCH=amd64 $(GOBUILD) -o $(BINARY_NAME).exe -v
-
-build/mac:
-	GOOS=darwin GOARCH=amd64 $(MAKE) build
-
-build/linux:
-	GOOS=linux GOARCH=amd64 $(MAKE) build
-
 test:
 	$(GOTEST) -v ./...
 
