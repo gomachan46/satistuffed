@@ -14,6 +14,8 @@ import (
 	"os"
 )
 
+var depth int
+
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
@@ -28,7 +30,7 @@ var getCmd = &cobra.Command{
 				os.Exit(1)
 			}
 
-			cli.Draw(a(item))
+			cli.Draw(a(item), depth)
 		}
 	},
 }
@@ -40,7 +42,7 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	//getCmd.PersistentFlags().String("foo", "", "A help for foo")
+	getCmd.PersistentFlags().IntVarP(&depth, "depth", "d", 10, "depth")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
@@ -75,7 +77,7 @@ func a(item *model.Item) *model.Facility {
 		}
 
 		magnification := math.Ceil(ingredient.Amount / ingredientProduct.Amount)
-		ingredientRecipe.Name = fmt.Sprintf("%s(合流)", ingredientRecipe.Name)
+		ingredientRecipe.Name = fmt.Sprintf("%s x %d (合流)", ingredientRecipe.Name, int(magnification))
 		stuffedFacility := &model.Facility{
 			Recipe:   &ingredientRecipe,
 			Amount:   ingredientProduct.Amount * magnification,
