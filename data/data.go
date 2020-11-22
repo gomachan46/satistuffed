@@ -389,8 +389,9 @@ func Load() *Data {
 	emptyCanisterRecipe.Ingredients = &[]model.Ingredient{{Item: plastic, Amount: 30}}
 	emptyCanisterRecipe.Products = &[]model.Product{{Item: emptyCanister, Amount: 60}}
 	emptyCanister.Recipes = &[]model.Recipe{*emptyCanisterRecipe}
-	heavyOilResidueRecipe.Ingredients = &[]model.Ingredient{{Item: packagedHeavyOilResidue, Amount: 20}}
-	heavyOilResidueRecipe.Products = &[]model.Product{{Item: heavyOilResidue, Amount: 20}, {Item: emptyCanister, Amount: 20}}
+	// TODO: ゴムの副産物も対応したい
+	heavyOilResidueRecipe.Ingredients = &[]model.Ingredient{{Item: crudeOil, Amount: 30}}
+	heavyOilResidueRecipe.Products = &[]model.Product{{Item: heavyOilResidue, Amount: 10}, {Item: plastic, Amount: 20}}
 	heavyOilResidue.Recipes = &[]model.Recipe{*heavyOilResidueRecipe}
 
 	biomassRecipe.Ingredients = &[]model.Ingredient{{Item: leaves, Amount: 120}}
