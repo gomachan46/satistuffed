@@ -66,39 +66,38 @@ func a(item *model.Item) *model.Facility {
 		ingredientProduct := (*ingredientRecipe.Products)[0]
 
 		if ingredient.Amount <= ingredientProduct.Amount {
-			return &model.Facility{
-				Recipe: &recipe,
-				Amount: product.Amount,
-				Children: &[]model.FacilityChild{{
-					Remain:   ingredientProduct.Amount - ingredient.Amount,
-					Facility: a(ingredientItem),
-				}},
-			}
-		}
-
-		magnification := math.Ceil(ingredient.Amount / ingredientProduct.Amount)
-		ingredientRecipe.Name = fmt.Sprintf("%s x %d (合流)", ingredientRecipe.Name, int(magnification))
-		stuffedFacility := &model.Facility{
-			Recipe:   &ingredientRecipe,
-			Amount:   ingredientProduct.Amount * magnification,
-			Children: &[]model.FacilityChild{},
-		}
-		for i := 0; i < int(magnification); i++ {
-			*stuffedFacility.Children = append(
-				*stuffedFacility.Children,
+			children = append(
+				children,
 				model.FacilityChild{
-					Remain:   0,
+					Remain:   ingredientProduct.Amount - ingredient.Amount,
 					Facility: a(ingredientItem),
 				},
 			)
+		} else {
+			magnification := math.Ceil(ingredient.Amount / ingredientProduct.Amount)
+			ingredientRecipe.Name = fmt.Sprintf("%s x %d", ingredientRecipe.Name, int(magnification))
+			stuffedFacility := &model.Facility{
+				Recipe:   &ingredientRecipe,
+				Amount:   ingredientProduct.Amount * magnification,
+				Children: &[]model.FacilityChild{},
+			}
+			for i := 0; i < int(magnification); i++ {
+				*stuffedFacility.Children = append(
+					*stuffedFacility.Children,
+					model.FacilityChild{
+						Remain:   ingredientProduct.Amount - ingredient.Amount,
+						Facility: a(ingredientItem),
+					},
+				)
+			}
+			children = append(
+				children,
+				model.FacilityChild{
+					Remain:   stuffedFacility.Amount - ingredient.Amount,
+					Facility: stuffedFacility,
+				},
+			)
 		}
-		children = append(
-			children,
-			model.FacilityChild{
-				Remain:   stuffedFacility.Amount - ingredient.Amount,
-				Facility: stuffedFacility,
-			},
-		)
 	}
 
 	return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &children}
