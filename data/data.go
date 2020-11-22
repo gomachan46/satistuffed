@@ -314,11 +314,11 @@ func Load() *Data {
 	concreteRecipe.Ingredients = &[]model.Ingredient{{Item: limestone, Amount: 45}}
 	concreteRecipe.Products = &[]model.Product{{Item: concrete, Amount: 15}}
 	concrete.Recipes = &[]model.Recipe{*concreteRecipe}
-	quartzCrystalRecipe.Ingredients = &[]model.Ingredient{{Item: rawQuartz, Amount: 37}} // TODO: 37.5
-	quartzCrystalRecipe.Products = &[]model.Product{{Item: quartzCrystal, Amount: 22}}   // TODO: 22.5
+	quartzCrystalRecipe.Ingredients = &[]model.Ingredient{{Item: rawQuartz, Amount: 37.5}}
+	quartzCrystalRecipe.Products = &[]model.Product{{Item: quartzCrystal, Amount: 22.5}}
 	quartzCrystal.Recipes = &[]model.Recipe{*quartzCrystalRecipe}
-	silicaRecipe.Ingredients = &[]model.Ingredient{{Item: rawQuartz, Amount: 22}} // TODO: 22.5
-	silicaRecipe.Products = &[]model.Product{{Item: silica, Amount: 37}}          // TODO: 37.5
+	silicaRecipe.Ingredients = &[]model.Ingredient{{Item: rawQuartz, Amount: 22.5}}
+	silicaRecipe.Products = &[]model.Product{{Item: silica, Amount: 37.5}}
 	silica.Recipes = &[]model.Recipe{*silicaRecipe}
 	compactedCoalRecipe.Ingredients = &[]model.Ingredient{{Item: coal, Amount: 25}, {Item: sulfur, Amount: 25}}
 	compactedCoalRecipe.Products = &[]model.Product{{Item: compactedCoal, Amount: 25}}
@@ -337,8 +337,8 @@ func Load() *Data {
 	fuelRecipe.Ingredients = &[]model.Ingredient{{Item: crudeOil, Amount: 60}}
 	fuelRecipe.Products = &[]model.Product{{Item: fuel, Amount: 40}, {Item: polymerResin, Amount: 30}}
 	fuel.Recipes = &[]model.Recipe{*fuelRecipe}
-	turbofuelRecipe.Ingredients = &[]model.Ingredient{{Item: fuel, Amount: 22}, {Item: compactedCoal, Amount: 15}} // TODO: 22.5
-	turbofuelRecipe.Products = &[]model.Product{{Item: turbofuel, Amount: 18}}                                     // TODO: 18.75
+	turbofuelRecipe.Ingredients = &[]model.Ingredient{{Item: fuel, Amount: 22.5}, {Item: compactedCoal, Amount: 15}}
+	turbofuelRecipe.Products = &[]model.Product{{Item: turbofuel, Amount: 18.75}}
 	turbofuel.Recipes = &[]model.Recipe{*turbofuelRecipe}
 	liquidBiofuelRecipe.Ingredients = &[]model.Ingredient{{Item: solidBiofuel, Amount: 90}, {Item: water, Amount: 45}}
 	liquidBiofuelRecipe.Products = &[]model.Product{{Item: liquidBiofuel, Amount: 60}}
@@ -364,7 +364,7 @@ func Load() *Data {
 	packagedWater.Recipes = &[]model.Recipe{*packagedWaterRecipe}
 
 	aluminumScrapRecipe.Ingredients = &[]model.Ingredient{{Item: aluminaSolution, Amount: 240}, {Item: petroleumCoke, Amount: 60}}
-	aluminumScrapRecipe.Products = &[]model.Product{{Item: aluminumScrap, Amount: 255}, {Item: water, Amount: 60}} // TODO 360
+	aluminumScrapRecipe.Products = &[]model.Product{{Item: aluminumScrap, Amount: 360}, {Item: water, Amount: 60}}
 	aluminumScrap.Recipes = &[]model.Recipe{*aluminumScrapRecipe}
 	aluminaSolutionRecipe.Ingredients = &[]model.Ingredient{{Item: bauxite, Amount: 70}, {Item: water, Amount: 100}}
 	aluminaSolutionRecipe.Products = &[]model.Product{{Item: aluminaSolution, Amount: 80}, {Item: silica, Amount: 20}}
@@ -420,7 +420,7 @@ func Load() *Data {
 	heavyModularFrameRecipe.Ingredients = &[]model.Ingredient{{Item: modularFrame, Amount: 10}, {Item: steelPipe, Amount: 30}, {Item: encasedIndustrialBeam, Amount: 10}, {Item: screw, Amount: 200}}
 	heavyModularFrameRecipe.Products = &[]model.Product{{Item: heavyModularFrame, Amount: 2}}
 	heavyModularFrame.Recipes = &[]model.Recipe{*heavyModularFrameRecipe}
-	alcladAluminumSheetRecipe.Ingredients = &[]model.Ingredient{{Item: aluminumIngot, Amount: 60}, {Item: copperIngot, Amount: 22}} // TODO: 22.5
+	alcladAluminumSheetRecipe.Ingredients = &[]model.Ingredient{{Item: aluminumIngot, Amount: 60}, {Item: copperIngot, Amount: 22.5}}
 	alcladAluminumSheetRecipe.Products = &[]model.Product{{Item: alcladAluminumSheet, Amount: 30}}
 	alcladAluminumSheet.Recipes = &[]model.Recipe{*alcladAluminumSheetRecipe}
 	copperSheetRecipe.Ingredients = &[]model.Ingredient{{Item: copperIngot, Amount: 20}}
@@ -439,8 +439,8 @@ func Load() *Data {
 	heatSinkRecipe.Ingredients = &[]model.Ingredient{{Item: alcladAluminumSheet, Amount: 40}, {Item: rubber, Amount: 70}}
 	heatSinkRecipe.Products = &[]model.Product{{Item: heatSink, Amount: 10}}
 	heatSink.Recipes = &[]model.Recipe{*heatSinkRecipe}
-	turboMotorRecipe.Ingredients = &[]model.Ingredient{{Item: heatSink, Amount: 7}, {Item: radioControlUnit, Amount: 3}, {Item: motor, Amount: 7}, {Item: rubber, Amount: 45}} // TODO: 7.5 3.75 7.5
-	turboMotorRecipe.Products = &[]model.Product{{Item: turboMotor, Amount: 1}}                                                                                                // TODO: 1.875
+	turboMotorRecipe.Ingredients = &[]model.Ingredient{{Item: heatSink, Amount: 7.5}, {Item: radioControlUnit, Amount: 3.75}, {Item: motor, Amount: 7.5}, {Item: rubber, Amount: 45}}
+	turboMotorRecipe.Products = &[]model.Product{{Item: turboMotor, Amount: 1.875}}
 	turboMotor.Recipes = &[]model.Recipe{*turboMotorRecipe}
 
 	powerShardRecipe.Ingredients = &[]model.Ingredient{{Item: greenPowerSlug, Amount: 1}}
@@ -457,29 +457,29 @@ func Load() *Data {
 	quickwireRecipe.Products = &[]model.Product{{Item: quickwire, Amount: 60}}
 	quickwire.Recipes = &[]model.Recipe{*quickwireRecipe}
 	circuitBoardRecipe.Ingredients = &[]model.Ingredient{{Item: copperSheet, Amount: 15}, {Item: plastic, Amount: 30}}
-	circuitBoardRecipe.Products = &[]model.Product{{Item: circuitBoard, Amount: 7}} // TODO: 7.5
+	circuitBoardRecipe.Products = &[]model.Product{{Item: circuitBoard, Amount: 7.5}}
 	circuitBoard.Recipes = &[]model.Recipe{*circuitBoardRecipe}
 	aiLimiterRecipe.Ingredients = &[]model.Ingredient{{Item: copperSheet, Amount: 25}, {Item: quickwire, Amount: 100}}
 	aiLimiterRecipe.Products = &[]model.Product{{Item: aiLimiter, Amount: 5}}
 	aiLimiter.Recipes = &[]model.Recipe{*aiLimiterRecipe}
-	highSpeedConnectorRecipe.Ingredients = &[]model.Ingredient{{Item: quickwire, Amount: 210}, {Item: cable, Amount: 37}, {Item: circuitBoard, Amount: 3}} // TODO: 37.5 3.75
-	highSpeedConnectorRecipe.Products = &[]model.Product{{Item: highSpeedConnector, Amount: 3}}                                                            // TODO 3.75
+	highSpeedConnectorRecipe.Ingredients = &[]model.Ingredient{{Item: quickwire, Amount: 210}, {Item: cable, Amount: 37.5}, {Item: circuitBoard, Amount: 3.75}}
+	highSpeedConnectorRecipe.Products = &[]model.Product{{Item: highSpeedConnector, Amount: 3.75}}
 	highSpeedConnector.Recipes = &[]model.Recipe{*highSpeedConnectorRecipe}
-	batteryRecipe.Ingredients = &[]model.Ingredient{{Item: alcladAluminumSheet, Amount: 15}, {Item: wire, Amount: 30}, {Item: sulfur, Amount: 37}, {Item: plastic, Amount: 15}} // TODO: 37.5
-	batteryRecipe.Products = &[]model.Product{{Item: battery, Amount: 5}}                                                                                                       // TODO: 5.625
+	batteryRecipe.Ingredients = &[]model.Ingredient{{Item: alcladAluminumSheet, Amount: 15}, {Item: wire, Amount: 30}, {Item: sulfur, Amount: 37.5}, {Item: plastic, Amount: 15}}
+	batteryRecipe.Products = &[]model.Product{{Item: battery, Amount: 5.625}}
 	battery.Recipes = &[]model.Recipe{*batteryRecipe}
 
-	crystalOscillatorRecipe.Ingredients = &[]model.Ingredient{{Item: quartzCrystal, Amount: 18}, {Item: cable, Amount: 14}, {Item: reinforcedIronPlate, Amount: 2}} // TODO: 2.5
+	crystalOscillatorRecipe.Ingredients = &[]model.Ingredient{{Item: quartzCrystal, Amount: 18}, {Item: cable, Amount: 14}, {Item: reinforcedIronPlate, Amount: 2.5}}
 	crystalOscillatorRecipe.Products = &[]model.Product{{Item: crystalOscillator, Amount: 1}}
 	crystalOscillator.Recipes = &[]model.Recipe{*crystalOscillatorRecipe}
-	computerRecipe.Ingredients = &[]model.Ingredient{{Item: circuitBoard, Amount: 25}, {Item: cable, Amount: 22}, {Item: plastic, Amount: 45}, {Item: screw, Amount: 130}} // TODO: 22.5
-	computerRecipe.Products = &[]model.Product{{Item: computer, Amount: 2}}                                                                                                // TODO: 2.5
+	computerRecipe.Ingredients = &[]model.Ingredient{{Item: circuitBoard, Amount: 25}, {Item: cable, Amount: 22.5}, {Item: plastic, Amount: 45}, {Item: screw, Amount: 130}}
+	computerRecipe.Products = &[]model.Product{{Item: computer, Amount: 2.5}}
 	computer.Recipes = &[]model.Recipe{*computerRecipe}
-	supercomputerRecipe.Ingredients = &[]model.Ingredient{{Item: computer, Amount: 3}, {Item: aiLimiter, Amount: 3}, {Item: highSpeedConnector, Amount: 5}, {Item: plastic, Amount: 52}} // TODO: 3.75 3.75 5.625 52.5
-	supercomputerRecipe.Products = &[]model.Product{{Item: supercomputer, Amount: 1}}                                                                                                    // TODO: 1.875
+	supercomputerRecipe.Ingredients = &[]model.Ingredient{{Item: computer, Amount: 3.75}, {Item: aiLimiter, Amount: 3.75}, {Item: highSpeedConnector, Amount: 5.625}, {Item: plastic, Amount: 52.5}}
+	supercomputerRecipe.Products = &[]model.Product{{Item: supercomputer, Amount: 1.875}}
 	supercomputer.Recipes = &[]model.Recipe{*supercomputerRecipe}
-	radioControlUnitRecipe.Ingredients = &[]model.Ingredient{{Item: heatSink, Amount: 10}, {Item: rubber, Amount: 40}, {Item: crystalOscillator, Amount: 2}, {Item: computer, Amount: 2}} // TODO: 2.5 2.5
-	radioControlUnitRecipe.Products = &[]model.Product{{Item: radioControlUnit, Amount: 2}}                                                                                               // TODO: 2.5
+	radioControlUnitRecipe.Ingredients = &[]model.Ingredient{{Item: heatSink, Amount: 10}, {Item: rubber, Amount: 40}, {Item: crystalOscillator, Amount: 2.5}, {Item: computer, Amount: 2.5}}
+	radioControlUnitRecipe.Products = &[]model.Product{{Item: radioControlUnit, Amount: 2.5}}
 	radioControlUnit.Recipes = &[]model.Recipe{*radioControlUnitRecipe}
 
 	encasedUraniumCellRecipe.Ingredients = &[]model.Ingredient{{Item: uraniumPellet, Amount: 40}, {Item: concrete, Amount: 9}}
@@ -488,23 +488,23 @@ func Load() *Data {
 	electromagneticControlRodRecipe.Ingredients = &[]model.Ingredient{{Item: stator, Amount: 6}, {Item: aiLimiter, Amount: 4}}
 	electromagneticControlRodRecipe.Products = &[]model.Product{{Item: electromagneticControlRod, Amount: 4}}
 	electromagneticControlRod.Recipes = &[]model.Recipe{*electromagneticControlRodRecipe}
-	nuclearFuelRodRecipe.Ingredients = &[]model.Ingredient{{Item: encasedUraniumCell, Amount: 10}, {Item: encasedIndustrialBeam, Amount: 1}, {Item: electromagneticControlRod, Amount: 2}} // TODO: 1.2
-	nuclearFuelRodRecipe.Products = &[]model.Product{{Item: nuclearFuelRod, Amount: 1}}                                                                                                    // TODO: 0.4
+	nuclearFuelRodRecipe.Ingredients = &[]model.Ingredient{{Item: encasedUraniumCell, Amount: 10}, {Item: encasedIndustrialBeam, Amount: 1.2}, {Item: electromagneticControlRod, Amount: 2}}
+	nuclearFuelRodRecipe.Products = &[]model.Product{{Item: nuclearFuelRod, Amount: 0.4}}
 	nuclearFuelRod.Recipes = &[]model.Recipe{*nuclearFuelRodRecipe}
 
 	smartPlatingRecipe.Ingredients = &[]model.Ingredient{{Item: reinforcedIronPlate, Amount: 2}, {Item: rotor, Amount: 2}}
 	smartPlatingRecipe.Products = &[]model.Product{{Item: smartPlating, Amount: 2}}
 	smartPlating.Recipes = &[]model.Recipe{*smartPlatingRecipe}
-	versatileFrameworkRecipe.Ingredients = &[]model.Ingredient{{Item: modularFrame, Amount: 2}, {Item: steelBeam, Amount: 30}} // TODO: 2.5
+	versatileFrameworkRecipe.Ingredients = &[]model.Ingredient{{Item: modularFrame, Amount: 2.5}, {Item: steelBeam, Amount: 30}}
 	versatileFrameworkRecipe.Products = &[]model.Product{{Item: versatileFramework, Amount: 5}}
 	versatileFramework.Recipes = &[]model.Recipe{*versatileFrameworkRecipe}
-	automatedWiringRecipe.Ingredients = &[]model.Ingredient{{Item: stator, Amount: 2}, {Item: cable, Amount: 50}} // TODO: 2.5
-	automatedWiringRecipe.Products = &[]model.Product{{Item: automatedWiring, Amount: 2}}                         // TODO: 2.5
+	automatedWiringRecipe.Ingredients = &[]model.Ingredient{{Item: stator, Amount: 2.5}, {Item: cable, Amount: 50}}
+	automatedWiringRecipe.Products = &[]model.Product{{Item: automatedWiring, Amount: 2.5}}
 	automatedWiring.Recipes = &[]model.Recipe{*automatedWiringRecipe}
 	modularEngineRecipe.Ingredients = &[]model.Ingredient{{Item: motor, Amount: 2}, {Item: rubber, Amount: 15}, {Item: smartPlating, Amount: 2}}
 	modularEngineRecipe.Products = &[]model.Product{{Item: modularEngine, Amount: 1}}
 	modularEngine.Recipes = &[]model.Recipe{*modularEngineRecipe}
-	adaptiveControlUnitRecipe.Ingredients = &[]model.Ingredient{{Item: automatedWiring, Amount: 7}, {Item: circuitBoard, Amount: 5}, {Item: heavyModularFrame, Amount: 1}, {Item: computer, Amount: 1}} // TODO: 7.5
+	adaptiveControlUnitRecipe.Ingredients = &[]model.Ingredient{{Item: automatedWiring, Amount: 7.5}, {Item: circuitBoard, Amount: 5}, {Item: heavyModularFrame, Amount: 1}, {Item: computer, Amount: 1}}
 	adaptiveControlUnitRecipe.Products = &[]model.Product{{Item: adaptiveControlUnit, Amount: 1}}
 	adaptiveControlUnit.Recipes = &[]model.Recipe{*adaptiveControlUnitRecipe}
 

@@ -39,7 +39,7 @@ func init() {
 
 func hoge() {
 	d := data.Load()
-	item, err := d.GetItem("ヘビー・モジュラー・フレーム")
+	item, err := d.GetItem("石英結晶")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
