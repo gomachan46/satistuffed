@@ -8,10 +8,10 @@ type Recipe struct {
 
 type Ingredient struct {
 	Item   *Item
-	Amount uint8
+	Amount float64
 }
 
 type Product struct {
 	Item   *Item
-	Amount uint8
+	Amount float64
 }

@@ -75,14 +75,14 @@ func a(item *model.Item) *model.Facility {
 			}
 		}
 
-		magnification := int(math.Ceil(float64(ingredient.Amount) / float64(ingredientProduct.Amount)))
+		magnification := math.Ceil(ingredient.Amount / ingredientProduct.Amount)
 		ingredientRecipe.Name = fmt.Sprintf("%s(合流)", ingredientRecipe.Name)
 		stuffedFacility := &model.Facility{
 			Recipe:   &ingredientRecipe,
-			Amount:   ingredientProduct.Amount * uint8(magnification),
+			Amount:   ingredientProduct.Amount * magnification,
 			Children: &[]model.FacilityChild{},
 		}
-		for i := 0; i < magnification; i++ {
+		for i := 0; i < int(magnification); i++ {
 			*stuffedFacility.Children = append(
 				*stuffedFacility.Children,
 				model.FacilityChild{
