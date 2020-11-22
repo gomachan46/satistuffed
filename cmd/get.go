@@ -19,7 +19,17 @@ var getCmd = &cobra.Command{
 	Use:   "get",
 	Short: "Get a stuffed Item",
 	Run: func(cmd *cobra.Command, args []string) {
-		hoge()
+		d := data.Load()
+
+		for _, name := range args {
+			item, err := d.GetItem(name)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+
+			cli.Draw(a(item))
+		}
 	},
 }
 
@@ -30,22 +40,11 @@ func init() {
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// getCmd.PersistentFlags().String("foo", "", "A help for foo")
+	//getCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func hoge() {
-	d := data.Load()
-	item, err := d.GetItem("石英結晶")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	cli.Draw(a(item))
+	//getCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func a(item *model.Item) *model.Facility {
