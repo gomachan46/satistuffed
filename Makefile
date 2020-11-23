@@ -34,6 +34,8 @@ install:
 clean:
 	$(APPMAKE) clean
 
+build/cmd: build/win build/mac
+
 build/win:
 	$(APPMAKE) build/win
 

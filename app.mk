@@ -14,7 +14,13 @@ install:
 	go mod download
 
 build:
-	$(GOBUILD) -o $(BINARY_NAME) -v
+	$(GOBUILD) -o dist/$(BINARY_NAME) -v
+
+build/win:
+	GOOS=windows GOARCH=amd64 $(GOBUILD) -o dist/$(BINARY_NAME).exe -v
+
+build/mac:
+	GOOS=darwin GOARCH=amd64 $(GOBUILD) -o dist/$(BINARY_NAME) -v
 
 test:
 	$(GOTEST) -v ./...

@@ -1,3 +1,0 @@
-1c2727622b4df2d29df845948c5a777f25f7e165de1e2e1f225549d8fda819bc  satistuffed_0.1.2_Windows_x86_64.tar.gz
-291c29ff837bd369de89d81a60a966fc20aae7adf17dabf3766c287f5f957bc4  satistuffed_0.1.2_Linux_x86_64.tar.gz
-a87da40b7deaf9ce52fab97a8b67f80a088256d4091d28278dd49b731f6d7250  satistuffed_0.1.2_Darwin_x86_64.tar.gz
