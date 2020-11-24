@@ -9,12 +9,14 @@ import (
 	"github.com/gomachan46/satistuffed/cli"
 	"github.com/gomachan46/satistuffed/data"
 	"github.com/gomachan46/satistuffed/model"
+	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"math"
 	"os"
 )
 
 var depth int
+var isOrigin bool
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
@@ -30,7 +32,17 @@ var getCmd = &cobra.Command{
 				os.Exit(1)
 			}
 
-			cli.Draw(a(item), depth)
+			facility := a(item)
+			if isOrigin {
+				filteredFacility := &model.Facility{
+					Recipe:   facility.Recipe,
+					Amount:   facility.Amount,
+					Children: &[]model.FacilityChild{},
+				}
+				cli.Draw(b(filteredFacility, facility), depth)
+			} else {
+				cli.Draw(facility, depth)
+			}
 		}
 	},
 }
@@ -43,6 +55,7 @@ func init() {
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	getCmd.PersistentFlags().IntVarP(&depth, "depth", "d", 10, "depth")
+	getCmd.PersistentFlags().BoolVar(&isOrigin, "origin", false, "get only origin")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
@@ -55,7 +68,7 @@ func a(item *model.Item) *model.Facility {
 	ingredients := *recipe.Ingredients
 
 	if len(ingredients) < 1 {
-		return &model.Facility{Recipe: &recipe, Children: &[]model.FacilityChild{}}
+		return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &[]model.FacilityChild{}}
 	}
 
 	children := []model.FacilityChild{}
@@ -101,4 +114,23 @@ func a(item *model.Item) *model.Facility {
 	}
 
 	return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &children}
+}
+
+func b(filteredFacility *model.Facility, facility *model.Facility) *model.Facility {
+	pp.Println(facility.Recipe.Name)
+	if len(*facility.Children) < 1 {
+		*filteredFacility.Children = append(
+			*filteredFacility.Children,
+			model.FacilityChild{
+				Remain:   0,
+				Facility: facility,
+			},
+		)
+	}
+
+	for _, v := range *facility.Children {
+		b(filteredFacility, v.Facility)
+	}
+
+	return filteredFacility
 }
