@@ -9,7 +9,6 @@ import (
 	"github.com/gomachan46/satistuffed/cli"
 	"github.com/gomachan46/satistuffed/data"
 	"github.com/gomachan46/satistuffed/model"
-	"github.com/k0kubun/pp"
 	"github.com/spf13/cobra"
 	"math"
 	"os"
@@ -34,12 +33,15 @@ var getCmd = &cobra.Command{
 
 			facility := a(item)
 			if isOrigin {
-				filteredFacility := &model.Facility{
-					Recipe:   facility.Recipe,
-					Amount:   facility.Amount,
-					Children: &[]model.FacilityChild{},
+				origins := b([]*model.Product{}, facility)
+				sum := map[string]float64{}
+				for _, v := range origins {
+					sum[v.Item.Name] += v.Amount
 				}
-				cli.Draw(b(filteredFacility, facility), depth)
+
+				for name, amount := range sum {
+					fmt.Printf("%s: %g\n", name, amount)
+				}
 			} else {
 				cli.Draw(facility, depth)
 			}
@@ -116,21 +118,22 @@ func a(item *model.Item) *model.Facility {
 	return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &children}
 }
 
-func b(filteredFacility *model.Facility, facility *model.Facility) *model.Facility {
-	pp.Println(facility.Recipe.Name)
-	if len(*facility.Children) < 1 {
-		*filteredFacility.Children = append(
-			*filteredFacility.Children,
-			model.FacilityChild{
-				Remain:   0,
-				Facility: facility,
-			},
-		)
-	}
-
+func b(origins []*model.Product, facility *model.Facility) []*model.Product {
+	o := []*model.Product{}
 	for _, v := range *facility.Children {
-		b(filteredFacility, v.Facility)
+		if len(*v.Facility.Children) < 1 {
+			o = append(o, c(&v))
+		}
+		o = append(o, b([]*model.Product{}, v.Facility)...)
 	}
 
-	return filteredFacility
+	return append(origins, o...)
+}
+
+func c(child *model.FacilityChild) *model.Product {
+	product := (*child.Facility.Recipe.Products)[0]
+	return &model.Product{
+		Item:   product.Item,
+		Amount: child.Facility.Amount - child.Remain,
+	}
 }
