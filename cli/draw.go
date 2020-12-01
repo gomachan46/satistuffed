@@ -12,7 +12,7 @@ func Draw(facility *model.Facility, depth int) {
 }
 
 func drawChildren(indent string, facility *model.Facility, depth int) {
-	children := *facility.Children
+	children := facility.Children
 
 	for i, v := range children {
 		if depth == 0 {

@@ -20,7 +20,7 @@ var isOrigin bool
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
-	Short: "Get a stuffed Item",
+	Short: "Get stuffed items",
 	Run: func(cmd *cobra.Command, args []string) {
 		d := data.Load()
 
@@ -65,41 +65,44 @@ func init() {
 }
 
 func a(item *model.Item) *model.Facility {
-	recipe := (*item.Recipes)[0]
-	product := (*recipe.Products)[0]
-	ingredients := *recipe.Ingredients
+	recipe := item.Recipes[0]
+	product := recipe.Products[0]
+	ingredients := recipe.Ingredients
 
 	if len(ingredients) < 1 {
-		return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &[]model.FacilityChild{}}
+		return &model.Facility{Recipe: recipe, Amount: product.Amount, Children: []*model.FacilityChild{}}
 	}
 
-	children := []model.FacilityChild{}
+	children := []*model.FacilityChild{}
 
 	for _, ingredient := range ingredients {
 		ingredientItem := ingredient.Item
-		ingredientRecipe := (*ingredientItem.Recipes)[0]
-		ingredientProduct := (*ingredientRecipe.Products)[0]
+		ingredientRecipe := ingredientItem.Recipes[0]
+		ingredientProduct := ingredientRecipe.Products[0]
 
 		if ingredient.Amount <= ingredientProduct.Amount {
 			children = append(
 				children,
-				model.FacilityChild{
+				&model.FacilityChild{
 					Remain:   ingredientProduct.Amount - ingredient.Amount,
 					Facility: a(ingredientItem),
 				},
 			)
 		} else {
 			magnification := math.Ceil(ingredient.Amount / ingredientProduct.Amount)
-			ingredientRecipe.Name = fmt.Sprintf("%s x %d", ingredientRecipe.Name, int(magnification))
 			stuffedFacility := &model.Facility{
-				Recipe:   &ingredientRecipe,
+				Recipe: &model.Recipe{
+					Name:        fmt.Sprintf("%s x %d", ingredientRecipe.Name, int(magnification)),
+					Ingredients: ingredientRecipe.Ingredients,
+					Products:    ingredientRecipe.Products,
+				},
 				Amount:   ingredientProduct.Amount * magnification,
-				Children: &[]model.FacilityChild{},
+				Children: []*model.FacilityChild{},
 			}
 			for i := 0; i < int(magnification); i++ {
-				*stuffedFacility.Children = append(
-					*stuffedFacility.Children,
-					model.FacilityChild{
+				stuffedFacility.Children = append(
+					stuffedFacility.Children,
+					&model.FacilityChild{
 						Remain:   ingredientProduct.Amount - ingredient.Amount,
 						Facility: a(ingredientItem),
 					},
@@ -107,7 +110,7 @@ func a(item *model.Item) *model.Facility {
 			}
 			children = append(
 				children,
-				model.FacilityChild{
+				&model.FacilityChild{
 					Remain:   stuffedFacility.Amount - ingredient.Amount,
 					Facility: stuffedFacility,
 				},
@@ -115,14 +118,14 @@ func a(item *model.Item) *model.Facility {
 		}
 	}
 
-	return &model.Facility{Recipe: &recipe, Amount: product.Amount, Children: &children}
+	return &model.Facility{Recipe: recipe, Amount: product.Amount, Children: children}
 }
 
 func b(origins []*model.Product, facility *model.Facility) []*model.Product {
 	o := []*model.Product{}
-	for _, v := range *facility.Children {
-		if len(*v.Facility.Children) < 1 {
-			o = append(o, c(&v))
+	for _, v := range facility.Children {
+		if len(v.Facility.Children) < 1 {
+			o = append(o, c(v))
 		}
 		o = append(o, b([]*model.Product{}, v.Facility)...)
 	}
@@ -131,7 +134,7 @@ func b(origins []*model.Product, facility *model.Facility) []*model.Product {
 }
 
 func c(child *model.FacilityChild) *model.Product {
-	product := (*child.Facility.Recipe.Products)[0]
+	product := child.Facility.Recipe.Products[0]
 	return &model.Product{
 		Item:   product.Item,
 		Amount: child.Facility.Amount - child.Remain,

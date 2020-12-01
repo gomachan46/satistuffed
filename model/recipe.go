@@ -2,8 +2,8 @@ package model
 
 type Recipe struct {
 	Name        string
-	Ingredients *[]Ingredient
-	Products    *[]Product
+	Ingredients []*Ingredient
+	Products    []*Product
 }
 
 type Ingredient struct {

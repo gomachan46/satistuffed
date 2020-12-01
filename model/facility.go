@@ -3,7 +3,7 @@ package model
 type Facility struct {
 	Recipe   *Recipe
 	Amount   float64
-	Children *[]FacilityChild
+	Children []*FacilityChild
 }
 
 type FacilityChild struct {
