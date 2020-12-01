@@ -6,7 +6,7 @@ import (
 )
 
 func Draw(facility *model.Facility, depth int) {
-	fmt.Printf(" %s\n", facility.Recipe.Name)
+	fmt.Printf(" %s (総: %g)\n", facility.Recipe.Name, facility.Amount)
 	drawChildren("", facility, depth)
 	fmt.Println("")
 }
@@ -27,9 +27,9 @@ func drawChildren(indent string, facility *model.Facility, depth int) {
 		}
 
 		if v.Remain > 0 {
-			fmt.Printf("%s %s (余り: %g)\n", s, v.Facility.Recipe.Name, v.Remain)
+			fmt.Printf("%s %s (総: %g, 余: %g)\n", s, v.Facility.Recipe.Name, v.Facility.Amount, v.Remain)
 		} else {
-			fmt.Printf("%s %s\n", s, v.Facility.Recipe.Name)
+			fmt.Printf("%s %s (総: %g)\n", s, v.Facility.Recipe.Name, v.Facility.Amount)
 		}
 
 		drawChildren(indent+a, v.Facility, depth-1)
