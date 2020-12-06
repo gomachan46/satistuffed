@@ -1,6 +1,7 @@
 package model
 
 type Facility struct {
+	Code     string
 	Recipe   *Recipe
 	Amount   float64
 	Children []*FacilityChild
