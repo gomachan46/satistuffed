@@ -99,15 +99,13 @@ func a(item *model.Item) *model.Facility {
 				Amount:   ingredientProduct.Amount * magnification,
 				Children: []*model.FacilityChild{},
 			}
-			for i := 0; i < int(magnification); i++ {
-				stuffedFacility.Children = append(
-					stuffedFacility.Children,
-					&model.FacilityChild{
-						Remain:   ingredientProduct.Amount - ingredient.Amount,
-						Facility: a(ingredientItem),
-					},
-				)
-			}
+			stuffedFacility.Children = append(
+				stuffedFacility.Children,
+				&model.FacilityChild{
+					Remain:   ingredientProduct.Amount - ingredient.Amount,
+					Facility: a(ingredientItem),
+				},
+			)
 			children = append(
 				children,
 				&model.FacilityChild{
