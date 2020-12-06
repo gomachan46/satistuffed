@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"github.com/gomachan46/satistuffed/model"
+	"strings"
 )
 
 func Draw(facility *model.Facility, depth int) {
@@ -13,6 +14,9 @@ func Draw(facility *model.Facility, depth int) {
 
 func drawChildren(indent string, facility *model.Facility, depth int) {
 	children := facility.Children
+	if strings.Contains(facility.Recipe.Name, " x ") {
+		children = children[0:1]
+	}
 
 	for i, v := range children {
 		if depth == 0 {
